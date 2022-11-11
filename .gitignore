@@ -19,3 +19,6 @@ go.work
 
 # Environtment file
 .env
+
+# Air temporary folder
+tmp/
