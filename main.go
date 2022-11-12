@@ -23,10 +23,6 @@ func main() {
 	chat := pubsub.NewHandler(service)
 
 	app := gin.Default()
-	app.StaticFile("/", "./client/login.html")
-	app.StaticFile("/register", "./client/register.html")
-	app.StaticFile("/chat", "./client/chat.html")
-	app.StaticFile("/login", "./client/login.html")
 	app.POST("/user/login", user.Login())
 	app.POST("/user/register", user.Register())
 	app.GET("/user/:id", user.Fetch())
