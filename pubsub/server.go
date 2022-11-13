@@ -35,7 +35,7 @@ func (s *PubSub) ProcessMessage(client Client, messageType int, payload []byte) 
 
 	switch m.Action {
 	case publish:
-		s.Publish(m.Topic, []byte(m.Message))
+		s.Publish(client, m.Topic, []byte(m.Message))
 	case subscribe:
 		s.Subscribe(&client, m.Topic)
 	case unsubscribe:
@@ -47,12 +47,16 @@ func (s *PubSub) ProcessMessage(client Client, messageType int, payload []byte) 
 	return s
 }
 
-func (s *PubSub) Publish(topic string, message []byte) {
+func (s *PubSub) Publish(sender Client, topic string, message []byte) {
 	var clients []Client
 
 	for _, sub := range s.Subscriptions {
 		if sub.Topic == topic {
-			clients = append(clients, *sub.Clients...)
+			for _, cli := range *sub.Clients {
+				if cli.ID != sender.ID {
+					clients = append(clients, cli)
+				}
+			}
 		}
 	}
 
