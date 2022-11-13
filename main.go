@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/handiism/chat/pubsub"
 	"github.com/handiism/chat/repo/psql"
@@ -23,6 +24,7 @@ func main() {
 	chat := pubsub.NewHandler(service)
 
 	app := gin.Default()
+	app.Use(cors.Default())
 	app.POST("/user/login", user.Login())
 	app.POST("/user/register", user.Register())
 	app.GET("/user/:id", user.Fetch())
