@@ -21,16 +21,16 @@ func main() {
 	repo := psql.NewRepo(pool)
 	service := user.NewService(repo)
 	user := user.NewHandler(service)
-	chat := pubsub.NewHandler(service)
+	chat := pubsub.NewHandler()
 
 	app := gin.Default()
 	app.Use(cors.Default())
 	app.POST("/user/login", user.Login())
 	app.POST("/user/register", user.Register())
 	app.GET("/user/:id", user.Fetch())
-	app.GET("/chat/:id", chat.WebSocket())
+	app.GET("/chat", chat.WebSocket())
 
-	if err := app.Run("127.0.0.1:8080"); err != nil {
+	if err := app.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal(err.Error())
 	}
 }
