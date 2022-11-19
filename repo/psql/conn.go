@@ -18,7 +18,7 @@ func NewPool() *pgxpool.Pool {
 	port := os.Getenv("PSQL_PORT")
 	database := os.Getenv("PSQL_DBNAME")
 
-	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
+	url := fmt.Sprintf("host=%s user=%s password=%s port=%s database=%s", host, username, password, port, database)
 	config, err := pgxpool.ParseConfig(url)
 	if err != nil {
 		log.Fatal(err.Error())
